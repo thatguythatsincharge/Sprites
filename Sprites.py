@@ -8,9 +8,9 @@ horSize = 1000
 vertSize = 750
 screenSize(horSize, vertSize)
 
-setBackgroundImage("images/stars.png")
+setBackgroundImage("stars.png")
 
-rocket = makeSprite("images/rocket1.png")
+rocket = makeSprite("rocket1.png")
 showSprite(rocket)
 
 xPos = 500
@@ -18,10 +18,12 @@ yPos = 375
 xSpeed = 0
 ySpeed = 0
 vel = 2
+fps= 20
+CLOCK = pygame.time.Clock()
 run = True
 
 while run:
-    pygame.time.delay(100)
+    CLOCK.tick(fps)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -42,8 +44,8 @@ while run:
     if keys[pygame.K_DOWN]:
         transformSprite(rocket, 180, 1)
         ySpeed += vel
+        
     #Combinations
-
     if keys[pygame.K_LEFT] and keys[pygame.K_UP]:
         transformSprite(rocket, -45, 1)
         xSpeed -= vel/2
