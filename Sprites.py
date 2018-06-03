@@ -1,71 +1,78 @@
-
-#                      __        __                              
-#     _________  _____/ /_____  / /_   ____ _____ _____ ___  ___ 
+#                      __        __
+#     _________  _____/ /_____  / /_   ____ _____ _____ ___  ___
 #    / ___/ __ \/ ___/ //_/ _ \/ __/  / __ `/ __ `/ __ `__ \/ _ \
 #   / /  / /_/ / /__/ ,< /  __/ /_   / /_/ / /_/ / / / / / /  __/
-#  /_/   \____/\___/_/|_|\___/\__/   \__, /\__,_/_/ /_/ /_/\___/ 
-#                                   /____/                       
- 
-
+#  /_/   \____/\___/_/|_|\___/\__/   \__, /\__,_/_/ /_/ /_/\___/
+#                                   /____/
 #Import librarys
-import pygame, math
+import pygame, math, random
 from pygame_functions import *
 pygame.init()
+pygame.mixer.init()
 
-
-##game setup##
-horSize = 1000
-vertSize = 750
-screen = pygame.display.set_mode((horSize, vertSize))
-#screenSize(horSize, vertSize)
-
-
-rocket = makeSprite("rocket1.png")
-pygame.display.set_caption("Rocket Game")
-
-setBackgroundImage("stars.png")
-
-showSprite(rocket)
-
-
-#                     _       __    __         
+#                     _       __    __
 #   _   ______ ______(_)___ _/ /_  / /__  _____
 #  | | / / __ `/ ___/ / __ `/ __ \/ / _ \/ ___/
-#  | |/ / /_/ / /  / / /_/ / /_/ / /  __(__  ) 
-#  |___/\__,_/_/  /_/\__,_/_.___/_/\___/____/  
-#                                              
+#  | |/ / /_/ / /  / / /_/ / /_/ / /  __(__  )
+#  |___/\__,_/_/  /_/\__,_/_.___/_/\___/____/
+#
 xPos = 500
 yPos = 375
-spriteDimentions = rocket.get_rect() # returns the width, hieght, and center piont of the rocket
+##### pygame cannot find file for some fucked up reason#####
+#rocket = makeSprite("images\\rocket.png")
+#center = rocket.get_rect.center() # returns center piont of the rocket
 xSpeed = 0
 ySpeed = 0
-vel = 2
-fps= 20
-CLOCK = pygame.time.Clock()
+angle = 0
+deg = 5
+rotSpeed = 250
+xVel = math.cos(angle)-xPos
+yVel = math.sin(angle)-yPos
+slope = yVel / xVel
 run = True
-D2R = (math.pi * 2) / 360 #converts radians to degrees
-vecDirection = list([[math.cos(D2R * degrees), math.sin(D2R * degrees)] for degrees in xRange(360)]) #finds the coordinates for all the degrees
+R2D = (math.pi * 2) / 360 #converts radians to degrees
+#vecDirection = list([[math.cos(R2D * degrees), math.sin(R2D * degrees)] for degrees in xRange(360)]) #finds the coordinates for all the degrees
 
 
+##window setup##
+width = 400
+height = 400
+fps= 50 #game speed
 
+# define colors in rgb
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
 
+surface = pygame.display.set_mode((width, height))
+surfaceArea = pygame.display.get_surface()
+surface.blit(surface)
+pygame.display.set_caption("Rocket Game")
+CLOCK = pygame.time.Clock()
+surface.fill(BLACK)
+#image = loadImage("stars.png")
+#setBackgroundImage(image)
+showSprite(rocket)
+all_sprites = pygame.sprite.Group()
 
-#                                                     _          
-#     ____ _____ _____ ___  ___     ___  ____  ____ _(_)___  ___ 
+#                                                     _
+#     ____ _____ _____ ___  ___     ___  ____  ____ _(_)___  ___
 #    / __ `/ __ `/ __ `__ \/ _ \   / _ \/ __ \/ __ `/ / __ \/ _ \
 #   / /_/ / /_/ / / / / / /  __/  /  __/ / / / /_/ / / / / /  __/
-#   \__, /\__,_/_/ /_/ /_/\___/   \___/_/ /_/\__, /_/_/ /_/\___/ 
-#  /____/                                   /____/               
+#   \__, /\__,_/_/ /_/ /_/\___/   \___/_/ /_/\__, /_/_/ /_/\___/
+#  /____/                                   /____/
 
 while run:
     CLOCK.tick(fps)
-    #                          __     __                    ____     _            
+    #                          __     __                    ____     _
     #    ___ _   _____  ____  / /_   / /_  ____ _____  ____/ / /__  (_)___  ____ _
     #   / _ \ | / / _ \/ __ \/ __/  / __ \/ __ `/ __ \/ __  / / _ \/ / __ \/ __ `/
-    #  /  __/ |/ /  __/ / / / /_   / / / / /_/ / / / / /_/ / /  __/ / / / / /_/ / 
-    #  \___/|___/\___/_/ /_/\__/  /_/ /_/\__,_/_/ /_/\__,_/_/\___/_/_/ /_/\__, /  
-    #                                                                    /____/   
-    
+    #  /  __/ |/ /  __/ / / / /_   / / / / /_/ / / / / /_/ / /  __/ / / / / /_/ /
+    #  \___/|___/\___/_/ /_/\__/  /_/ /_/\__,_/_/ /_/\__,_/_/\___/_/_/ /_/\__, /
+    #                                                                    /____/
+
     #allows for quiting the game and closing the window by clicking the 'X' button
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -74,17 +81,29 @@ while run:
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_LEFT]:
-        transformSprite(rocket, -90, 1) 
-        xSpeed -= vel
+        angle += deg
+        transformSprite(rocket, angle, 1)
+        xSpeed -= xVel
+        ySpeed += yVel
     if keys[pygame.K_RIGHT]:
-        transformSprite(rocket, 90, 1)
-        xSpeed += vel
+        angle -= deg
+        transformSprite(rocket, angle, 1)
+        xSpeed += xVel
+        ySpeed += yVel
     if keys[pygame.K_UP]:
-        transformSprite(rocket, 0, 1)
-        ySpeed -= vel
+        if angle < 0:
+            angle += deg
+        elif angle > 0:
+            angle -= deg
+        transformSprite(rocket, angle, 1)
+        xSpeed
+        ySpeed
     if keys[pygame.K_DOWN]:
-        transformSprite(rocket, 180, 1)
-        ySpeed += vel     
+        if angle < 0:
+            angle -= 5
+        transformSprite(rocket, angle, 1)
+        xSpeed
+        ySpeed
     #Combinations#
     if keys[pygame.K_LEFT] and keys[pygame.K_UP]:
         transformSprite(rocket, -45, 1)
@@ -123,9 +142,9 @@ while run:
 
     moveSprite(rocket, xPos, yPos)
 ## ALLOWS CHECKING TO SEE IF ESCAPE IS PRESSED ##
-    tick(30)
+   # tick(30)
 
-#    pygame.display.update()
+    pygame.display.update()
 
 ## WHEN 'ESC' IS PRESSED, GAME WINDOW CLOSES ##
 

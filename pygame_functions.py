@@ -217,8 +217,8 @@ class newLabel(pygame.sprite.Sprite):
             self.image.blit(lineSurface,[0,linePos])
             linePos+=self.fontSize+1
         self.rect = self.image.get_rect()
-       
-        
+
+
 
 def loadImage(fileName, useColorKey=False):
     if os.path.isfile(fileName):
