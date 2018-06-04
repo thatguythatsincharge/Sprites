@@ -249,6 +249,8 @@ def screenSize(sizex, sizey, xpos=None, ypos=None, fullscreen=False):
     pygame.display.set_caption("Graphics Window")
     bgSurface = screen.copy()
     pygame.display.update()
+    return screen
+
 
 
 def moveSprite(sprite, x, y, centre=False):

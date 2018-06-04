@@ -10,7 +10,7 @@ class Game:
         # initialize pygame and create window
         pg.init()
         pg.mixer.init()
-        self.screen = screen #pygame.display.set_mode((width, height)) #display surface the reps the screen
+        self.screen = screenSize(width, height)#pygame.display.set_mode((width, height)) #display surface the reps the screen
         def caption(caption): # creates a function called "caption()" that takes a string perameter
             pg.display.set_caption(caption)
         caption("Astroides")
