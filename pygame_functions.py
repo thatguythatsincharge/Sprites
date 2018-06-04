@@ -223,7 +223,7 @@ class newLabel(pygame.sprite.Sprite):
 def loadImage(fileName, useColorKey=False):
     if os.path.isfile(fileName):
         image = pygame.image.load(fileName)
-        image = image.convert_alpha()
+        #image = image.convert_alpha()
         # Return the image
         return image
     else:
