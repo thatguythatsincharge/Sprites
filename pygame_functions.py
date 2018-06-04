@@ -85,14 +85,15 @@ class newSprite(pygame.sprite.Sprite):
 
     def changeImage(self, index):
         self.currentImage = index
-        if self.angle == 0:
+        if self.angle == 0 and self.scale == 1:
             self.image = self.images[index]
         else:
-            self.image = pygame.transform.rotate(self.images[self.currentImage], -self.angle)
+            self.image = pygame.transform.rotozoom(self.images[self.currentImage], -self.angle, self.scale)
         oldcenter = self.rect.center
         self.rect = self.image.get_rect()
-        self.originalWidth = self.rect.width
-        self.originalHeight = self.rect.height
+        originalRect = self.images[self.currentImage].get_rect()
+        self.originalWidth = originalRect.width
+        self.originalHeight = originalRect.height
         self.rect.center = oldcenter
         self.mask = pygame.mask.from_surface(self.image)
         updateDisplay()
@@ -223,7 +224,7 @@ class newLabel(pygame.sprite.Sprite):
 def loadImage(fileName, useColorKey=False):
     if os.path.isfile(fileName):
         image = pygame.image.load(fileName)
-        #image = image.convert_alpha()
+        image = image.convert_alpha()
         # Return the image
         return image
     else:
@@ -250,7 +251,6 @@ def screenSize(sizex, sizey, xpos=None, ypos=None, fullscreen=False):
     bgSurface = screen.copy()
     pygame.display.update()
     return screen
-
 
 
 def moveSprite(sprite, x, y, centre=False):
@@ -496,7 +496,7 @@ def endWait():
     keys = pygame.key.get_pressed()
     current_time = pygame.time.get_ticks()
     waittime = 0
-    while not pygame.QUIT:
+    while not keys[pygame.K_ESCAPE]:
         current_time = pygame.time.get_ticks()
         if current_time > waittime:
             pygame.event.clear()

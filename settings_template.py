@@ -18,7 +18,7 @@ hHeight = height/2
 screen = pygame.display.set_mode((width, height))
 
 ##### pygame cannot find this stupid file for some fucked up reason#####
-rocket = makeSprite("rocket1.png")
+rocket = makeSprite("images/rocket1.png")
 #center = rocket.get_rect.center() # returns center piont of the rocket
 xPos = hWidth
 yPos = hHeight

@@ -14,7 +14,7 @@ class Game:
         def caption(caption): # creates a function called "caption()" that takes a string perameter
             pg.display.set_caption(caption)
         caption("Astroides")
-        #setBackgroundImage("stars.png")
+        #setBackgroundImage("images/stars.png")
         self.clock = pg.time.Clock()
         #showSprite(rocket)
         self.running = True
