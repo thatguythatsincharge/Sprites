@@ -11,19 +11,15 @@ BLUE = (0, 0, 255)
 
 
 # set up a window for pygame to use
-width = 750
+width = 1080
 height = 1080
 hWidth = width/2
 hHeight = height/2
 screen = pygame.display.set_mode((width, height))
 
-##### pygame cannot find this stupid file for some fucked up reason#####
 rocket = makeSprite("images/rocket1.png")
 #center = rocket.get_rect.center() # returns center piont of the rocket
-xPos = hWidth
-yPos = hHeight
-xSpeed = 0
-ySpeed = 0
+
 vel = 0
 FPS = 10 # how fast the game runs (frames per second)
 angle = 0

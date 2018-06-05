@@ -14,9 +14,9 @@ class Game:
         def caption(caption): # creates a function called "caption()" that takes a string perameter
             pg.display.set_caption(caption)
         caption("Astroides")
-        #setBackgroundImage("images/stars.png")
+        setBackgroundImage("images/stars.png")
         self.clock = pg.time.Clock()
-        #showSprite(rocket)
+        showSprite(rocket)
         self.running = True
 
     def new(self): # start new game
@@ -60,13 +60,13 @@ class Game:
                 slowDown()
                 printStatus()
 
-        ## HANDLES LOOPING ##
-            # xPos = global.xPos
-            # yPos = global.yPos
-            # xSpeed = global.xSpeed
-            # ySpeed = global.ySpeed
-            # vertSize = global.height
-            # horSize = global.width
+            ## HANDLES LOOPING ##
+            xPos = hWidth
+            yPos = hHeight
+            xSpeed = 0
+            ySpeed = 0
+            vertSize = height
+            horSize = width
             xPos += xSpeed                      ## Changes the X-position of the rocket sprite providing the
             if xPos > vertSize + 210:             # illusion of horizontal movementself.
                 xPos = -100
