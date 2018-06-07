@@ -61,12 +61,7 @@ class Game:
                 printStatus()
 
             ## HANDLES LOOPING ##
-            xPos = hWidth
-            yPos = hHeight
-            xSpeed = 0
-            ySpeed = 0
-            vertSize = height
-            horSize = width
+            global xPos, xSpeed, yPos, ySpeed, vertSize, horSize
             xPos += xSpeed                      ## Changes the X-position of the rocket sprite providing the
             if xPos > vertSize + 210:             # illusion of horizontal movementself.
                 xPos = -100

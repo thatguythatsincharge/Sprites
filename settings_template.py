@@ -19,7 +19,12 @@ screen = pygame.display.set_mode((width, height))
 
 rocket = makeSprite("images/rocket1.png")
 #center = rocket.get_rect.center() # returns center piont of the rocket
-
+xPos = hWidth
+yPos = hHeight
+xSpeed = 0
+ySpeed = 0
+vertSize = height
+horSize = width
 vel = 0
 FPS = 10 # how fast the game runs (frames per second)
 angle = 0

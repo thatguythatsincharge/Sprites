@@ -5,6 +5,7 @@
 
 
 import pygame, math, sys, os
+from settings_template import *
 
 bgcolor = pygame.Color("black")
 pygame.mixer.pre_init(44100, -16, 2, 512)
@@ -321,8 +322,9 @@ def unhideAll():
     updateDisplay()
 
 def showSprite(sprite):
+    global FPS
     spriteGroup.add(sprite)
-    updateDisplay()
+    gameClock.tick(FPS)  # changed updateDisplay to tick for better framerate
 
 
 def makeSprite(filename):
