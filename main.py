@@ -2,8 +2,6 @@
 import pygame as pg
 import random, math, sys
 from settings_template import *
-#from sprites import *
-from pygame_functions import *
 
 class Game:
     def __init__(self): #stuff that needs to happen on game startup
@@ -86,7 +84,6 @@ class Game:
 
     def draw(self): #gameloop - draw
             # Draw / render
-            #self.screen.fill(BLACK)
             self.all_sprites.draw(self.screen)
             # always do this last. after drawing everything, flip the display
             pg.display.flip() # pygame shows what it was drawing in the background.(update display)

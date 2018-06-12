@@ -80,7 +80,7 @@ def speedUp():
     rAngle = math.radians(angle)
     xSpeed = math.sin(rAngle)*(-vel)
     ySpeed = math.cos(rAngle)*(vel)
-    return ()
+    #return ()
 
 def slowDown():
     """Decelerates rocket in direction 180 degrees to its current direction"""

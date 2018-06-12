@@ -5,7 +5,7 @@
 
 
 import pygame, math, sys, os
-from settings_template import *
+import settings_template
 
 bgcolor = pygame.Color("black")
 pygame.mixer.pre_init(44100, -16, 2, 512)
@@ -97,7 +97,8 @@ class newSprite(pygame.sprite.Sprite):
         self.originalHeight = originalRect.height
         self.rect.center = oldcenter
         self.mask = pygame.mask.from_surface(self.image)
-        updateDisplay()
+        gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
+
 
 
 class newTextBox(pygame.sprite.Sprite):
@@ -148,7 +149,8 @@ class newTextBox(pygame.sprite.Sprite):
                         pygame.draw.rect(self.image, (0, 0, 0), [0, 0, self.width - 1, self.boxSize - 1], 2)
                         newSurface = self.font.render(self.text, True, self.fontColour)
                         self.image.blit(newSurface, [10, 5])
-                        updateDisplay()
+                        gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
+
                         nexttime = thistime + 50
                         pygame.event.clear()
                 else:
@@ -158,7 +160,8 @@ class newTextBox(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, (0, 0, 0), [0, 0, self.width - 1, self.boxSize - 1], 2)
         newSurface = self.font.render(self.text, True, self.fontColour)
         self.image.blit(newSurface, [10, 5])
-        updateDisplay()
+        gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
+
 
     def move(self, xpos, ypos, centre=False):
         if centre:
@@ -171,7 +174,8 @@ class newTextBox(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, (0, 0, 0), [0, 0, self.width - 1, self.boxSize - 1], 2)
         newSurface = self.font.render(self.initialText, True, self.initialColour)
         self.image.blit(newSurface, [10, 5])
-        updateDisplay()
+        gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
+
 
 
 class newLabel(pygame.sprite.Sprite):
@@ -196,7 +200,8 @@ class newLabel(pygame.sprite.Sprite):
         oldTopLeft = self.rect.topleft
         self.renderText()
         self.rect.topleft = oldTopLeft
-        updateDisplay()
+        gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
+
 
     def renderText(self):
         lineSurfaces = []
@@ -221,7 +226,6 @@ class newLabel(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 
-
 def loadImage(fileName, useColorKey=False):
     if os.path.isfile(fileName):
         image = pygame.image.load(fileName)
@@ -230,7 +234,6 @@ def loadImage(fileName, useColorKey=False):
         return image
     else:
         raise Exception("Error loading image: " + fileName + " - Check filename and path?")
-
 
 def screenSize(sizex, sizey, xpos=None, ypos=None, fullscreen=False):
     global bgcolor
@@ -253,16 +256,14 @@ def screenSize(sizex, sizey, xpos=None, ypos=None, fullscreen=False):
     pygame.display.update()
     return screen
 
-
 def moveSprite(sprite, x, y, centre=False):
     sprite.move(x, y, centre)
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 
 def rotateSprite(sprite, angle):
     print("rotateSprite has been deprecated. Please use transformSprite")
     transformSprite(sprite, angle, 1)
-
 
 def transformSprite(sprite, angle, scale, hflip=False, vflip=False):
     oldmiddle = sprite.rect.center
@@ -278,12 +279,12 @@ def transformSprite(sprite, angle, scale, hflip=False, vflip=False):
     sprite.rect = sprite.image.get_rect()
     sprite.rect.center = oldmiddle
     sprite.mask = pygame.mask.from_surface(sprite.image)
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 
 def killSprite(sprite):
     sprite.kill()
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 
 def setBackgroundColour(colour):
@@ -295,50 +296,46 @@ def setBackgroundColour(colour):
     pygame.display.update()
     bgSurface = screen.copy()
 
-
 def setBackgroundImage(img):
     global bgSurface, backgroundImage
     surf = loadImage(img)
     backgroundImage = surf
     screen.blit(surf, [0, 0])
     bgSurface = screen.copy()
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 
 def hideSprite(sprite):
     hiddenSprites.add(sprite)
     spriteGroup.remove(sprite)
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 
 def hideAll():
     hiddenSprites.add(spriteGroup.sprites())
     spriteGroup.empty()
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
+
 
 def unhideAll():
     spriteGroup.add(hiddenSprites.sprites())
     hiddenSprites.empty()
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
+
 
 def showSprite(sprite):
-    global FPS
     spriteGroup.add(sprite)
-    gameClock.tick(FPS)  # changed updateDisplay to tick for better framerate
-
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 def makeSprite(filename):
     thisSprite = newSprite(filename)
     return thisSprite
 
-
 def addSpriteImage(sprite, image):
     sprite.addImage(image)
 
-
 def changeSpriteImage(sprite, index):
     sprite.changeImage(index)
-
 
 def nextSpriteImage(sprite):
     sprite.currentImage += 1
@@ -346,22 +343,18 @@ def nextSpriteImage(sprite):
         sprite.currentImage = 0
     sprite.changeImage(sprite.currentImage)
 
-
 def prevSpriteImage(sprite):
     sprite.currentImage -= 1
     if sprite.currentImage < 0:
         sprite.currentImage = len(sprite.images) - 1
     sprite.changeImage(sprite.currentImage)
 
-
 def makeImage(filename):
     return loadImage(filename)
-
 
 def touching(sprite1, sprite2):
     collided = pygame.sprite.collide_mask(sprite1, sprite2)
     return collided
-
 
 def allTouching(spritename):
     if spriteGroup.has(spritename):
@@ -370,7 +363,6 @@ def allTouching(spritename):
         return collisions
     else:
         return []
-
 
 def pause(milliseconds, allowEsc=True):
     keys = pygame.key.get_pressed()
@@ -384,14 +376,12 @@ def pause(milliseconds, allowEsc=True):
             sys.exit()
         current_time = pygame.time.get_ticks()
 
-
 def drawRect(xpos, ypos, width, height, colour, linewidth=0):
     global bgSurface
     colour = parseColour(colour)
     thisrect = pygame.draw.rect(screen, colour, [xpos, ypos, width, height], linewidth)
     bgrect = pygame.draw.rect(bgSurface, colour, [xpos, ypos, width, height], linewidth)
     pygame.display.update(thisrect)
-
 
 def drawLine(x1, y1, x2, y2, colour, linewidth=1):
     global bgSurface
@@ -400,14 +390,12 @@ def drawLine(x1, y1, x2, y2, colour, linewidth=1):
     bgrect = pygame.draw.line(bgSurface, colour, (x1, y1), (x2, y2), linewidth)
     pygame.display.update(thisrect)
 
-
 def drawPolygon(pointlist, colour, linewidth=0):
     global bgSurface
     colour = parseColour(colour)
     thisrect = pygame.draw.polygon(screen, colour, pointlist, linewidth)
     bgrect = pygame.draw.polygon(bgSurface, colour, pointlist, linewidth)
     pygame.display.update(thisrect)
-
 
 def drawEllipse(centreX, centreY, width, height, colour, linewidth=0):
     global bgSurface
@@ -417,14 +405,12 @@ def drawEllipse(centreX, centreY, width, height, colour, linewidth=0):
     # pygame.draw.ellipse(bgSurface, colour, thisrect, linewidth)
     pygame.display.update(thisrect)
 
-
 def drawTriangle(x1, y1, x2, y2, x3, y3, colour, linewidth=0):
     global bgSurface
     colour = parseColour(colour)
     thisrect = pygame.draw.polygon(screen, colour, [(x1, y1), (x2, y2), (x3, y3)], linewidth)
     bgrect = pygame.draw.polygon(bgSurface, colour, [(x1, y1), (x2, y2), (x3, y3)], linewidth)
     pygame.display.update(thisrect)
-
 
 def clearShapes():
     global bgcolor
@@ -433,16 +419,14 @@ def clearShapes():
     if backgroundImage:
         screen.blit(backgroundImage, [0, 0])
     bgSurface = screen.copy()
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 
 def updateShapes():
     pygame.display.update()
 
-
 def end():
     pygame.quit()
-
 
 def makeSound(filename):
     pygame.mixer.init()
@@ -450,14 +434,11 @@ def makeSound(filename):
 
     return thissound
 
-
 def playSound(sound, loops=0):
     sound.play(loops)
 
-
 def stopSound(sound):
     sound.stop()
-
 
 def playSoundAndWait(sound):
     sound.play()
@@ -465,10 +446,8 @@ def playSoundAndWait(sound):
         # pause
         pause(10)
 
-
 def makeMusic(filename):
     pygame.mixer.music.load(filename)
-
 
 def playMusic(loops=0):
     global musicPaused
@@ -478,20 +457,16 @@ def playMusic(loops=0):
         pygame.mixer.music.play(loops)
     musicPaused = False
 
-
 def stopMusic():
     pygame.mixer.music.stop()
-
 
 def pauseMusic():
     global musicPaused
     pygame.mixer.music.pause()
     musicPaused = True
 
-
 def rewindMusic():
     pygame.mixer.music.rewind()
-
 
 def endWait():
     print("Press ESC to quit")
@@ -506,7 +481,6 @@ def endWait():
             waittime += 20
     pygame.quit()
 
-
 def keyPressed(keyCheck=""):
     global keydict
     pygame.event.clear()
@@ -516,21 +490,19 @@ def keyPressed(keyCheck=""):
             return True
     return False
 
-
 def makeLabel(text, fontSize, xpos, ypos, fontColour='black', font='Arial', background="clear"):
     # make a text sprite
     thisText = newLabel(text, fontSize, font, fontColour, xpos, ypos, background)
     return thisText
 
-
 def moveLabel(sprite, x, y):
     sprite.rect.topleft = [x, y]
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 
 def changeLabel(textObject, newText, fontColour=None, background=None):
     textObject.update(newText, fontColour, background)
-    # updateDisplay()
+    # gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 
 def waitPress():
@@ -541,12 +513,10 @@ def waitPress():
         thisevent = pygame.event.wait()
     return thisevent.key
 
-
 def makeTextBox(xpos, ypos, width, case=0, startingText="Please type here", maxLength=0, fontSize=22):
     thisTextBox = newTextBox(startingText, xpos, ypos, width, case, maxLength, fontSize)
     textboxGroup.add(thisTextBox)
     return thisTextBox
-
 
 def textBoxInput(textbox, functionToCall=None, args=[]):
     # starts grabbing key inputs, putting into textbox until enter pressed
@@ -554,7 +524,8 @@ def textBoxInput(textbox, functionToCall=None, args=[]):
     textbox.text = ""
     returnVal=None
     while True:
-        updateDisplay()
+        gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
+
         if functionToCall:
             returnVal = functionToCall(*args)
         for event in pygame.event.get():
@@ -574,34 +545,31 @@ def textBoxInput(textbox, functionToCall=None, args=[]):
                 pygame.quit()
                 sys.exit()
 
-
 def clock():
     current_time = pygame.time.get_ticks()
     return current_time
 
-
 def tick(fps):
     gameClock.tick(fps)
 
-
 def showLabel(labelName):
     textboxGroup.add(labelName)
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 
 def hideLabel(labelName):
     textboxGroup.remove(labelName)
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 
 def showTextBox(textBoxName):
     textboxGroup.add(textBoxName)
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 
 def hideTextBox(textBoxName):
     textboxGroup.remove(textBoxName)
-    updateDisplay()
+    gameClock.tick(settings_template.FPS)  # changed updateDisplay to tick for better framerate
 
 
 def updateDisplay():
@@ -616,7 +584,6 @@ def updateDisplay():
     spriteGroup.clear(screen, bgSurface)
     textboxGroup.clear(screen, bgSurface)
 
-
 def mousePressed():
     pygame.event.clear()
     mouseState = pygame.mouse.get_pressed()
@@ -624,7 +591,6 @@ def mousePressed():
         return True
     else:
         return False
-
 
 def spriteClicked(sprite):
     mouseState = pygame.mouse.get_pressed()
@@ -635,7 +601,6 @@ def spriteClicked(sprite):
         return True
     else:
         return False
-
 
 def parseColour(colour):
     if type(colour) == str:
@@ -648,16 +613,13 @@ def parseColour(colour):
         colourRGB.b = colour[2]
         return colourRGB
 
-
 def mouseX():
     x = pygame.mouse.get_pos()
     return x[0]
 
-
 def mouseY():
     y = pygame.mouse.get_pos()
     return y[1]
-
 
 if __name__ == "__main__":
     print(""""pygame_functions is not designed to be run directly.
