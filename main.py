@@ -80,7 +80,7 @@ class Game:
         # Update
         #moveSprite(rocket, xPos, yPos)
         self.all_sprites.update()
-        pygame.display.update()
+        updateDisplay()
 
     def draw(self): #gameloop - draw
             # Draw / render

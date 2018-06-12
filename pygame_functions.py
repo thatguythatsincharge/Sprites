@@ -583,7 +583,6 @@ def updateDisplay():
         sys.exit()
     spriteGroup.clear(screen, bgSurface)
     textboxGroup.clear(screen, bgSurface)
-
 def mousePressed():
     pygame.event.clear()
     mouseState = pygame.mouse.get_pressed()

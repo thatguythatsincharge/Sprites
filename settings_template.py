@@ -26,7 +26,7 @@ ySpeed = 0
 vertSize = height
 horSize = width
 vel = 0
-FPS = 10 # how fast the game runs (frames per second)
+FPS = 60 # how fast the game runs (frames per second)
 angle = 0
 rAngle = math.radians(angle)
 changeAngle = 0
@@ -77,10 +77,10 @@ def speedUp():
     """Accelerates rocket in its current direction"""
     global xSpeed, ySpeed, vel
     vel -= 1
-    rAngle = math.radians(angle)
+    #rAngle = math.radians(angle)
     xSpeed = math.sin(rAngle)*(-vel)
     ySpeed = math.cos(rAngle)*(vel)
-    #return ()
+    return ()
 
 def slowDown():
     """Decelerates rocket in direction 180 degrees to its current direction"""
