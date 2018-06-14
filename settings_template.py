@@ -54,6 +54,7 @@ def turnLeft():
     elif angle < 0:
         angle += 360
     rAngle = math.radians(angle)
+    vel = math.sin(rAngle)/math.cos(rAngle)
     xSpeed = math.sin(rAngle * (-vel))
     ySpeed = math.cos(rAngle * vel)
     transformSprite(rocket, angle, 1)
@@ -70,6 +71,7 @@ def turnRight():
     elif angle < 0:
         angle += 360
     rAngle = math.radians(angle)
+    vel = math.sin(rAngle)/math.cos(rAngle)
     xSpeed = math.sin(rAngle)*(-vel)
     ySpeed = math.cos(rAngle)*(vel)
     transformSprite(rocket, angle, 1)
