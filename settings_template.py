@@ -45,37 +45,39 @@ changeAngle = 0
 # functions
 def turnLeft():
     """Rotates the rocket clockwise"""
-    global angle, changeAngle, xSpeed, ySpeed, vel
+    global angle, changeAngle, rAngle, xSpeed, ySpeed, vel
     changeAngle -= 15
-    angle = (changeAngle % 360)
+    angle += changeAngle
+    changeAngle = 0
+    if angle >= 360:
+        angle -= 360
+    elif angle < 0:
+        angle += 360
     rAngle = math.radians(angle)
-    xSpeed = math.sin(rAngle)*(-vel)
-    ySpeed = math.cos(rAngle)*(vel)
+    xSpeed = math.sin(rAngle * (-vel))
+    ySpeed = math.cos(rAngle * vel)
     transformSprite(rocket, angle, 1)
-    if vel > 0:
-        vel -= 0.2
-    elif vel < 0:
-        vel += 0.2
     return()
 
 def turnRight():
     """Rotates the rocket clockwise"""
-    global angle, changeAngle, xSpeed, ySpeed, vel
+    global angle, changeAngle, rAngle, xSpeed, ySpeed, vel
     changeAngle += 15
-    angle = (changeAngle % 360)
+    angle += changeAngle
+    changeAngle = 0
+    if angle >= 360:
+        angle -= 360
+    elif angle < 0:
+        angle += 360
     rAngle = math.radians(angle)
     xSpeed = math.sin(rAngle)*(-vel)
     ySpeed = math.cos(rAngle)*(vel)
     transformSprite(rocket, angle, 1)
-    if vel > 0:
-        vel -= 0.2
-    elif vel < 0:
-        vel += 0.2
     return()
 
 def speedUp():
     """Accelerates rocket in its current direction"""
-    global xSpeed, ySpeed, vel
+    global xSpeed, ySpeed, vel, rAngle
     vel -= 1
     #rAngle = math.radians(angle)
     xSpeed = math.sin(rAngle)*(-vel)
@@ -84,9 +86,9 @@ def speedUp():
 
 def slowDown():
     """Decelerates rocket in direction 180 degrees to its current direction"""
-    global xSpeed, ySpeed, vel
+    global xSpeed, ySpeed, vel, rAngle
     vel += 1
-    rAngle = math.radians(angle)
+    #rAngle = math.radians(angle)
     xSpeed = math.sin(rAngle)*(-vel)
     ySpeed = math.cos(rAngle)*(vel)
     return()
