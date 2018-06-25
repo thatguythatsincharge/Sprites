@@ -19,6 +19,7 @@ screen = pygame.display.set_mode((width, height))
 
 rocket = makeSprite("images/rocket1.png")
 #center = rocket.get_rect.center() # returns center piont of the rocket
+#rocketImg = pygame.Surface(150, 173) # i dont know wtf im doing
 xPos = hWidth
 yPos = hHeight
 xSpeed = 0
@@ -46,7 +47,7 @@ changeAngle = 0
 def turnLeft():
     """Rotates the rocket clockwise"""
     global angle, changeAngle, rAngle, xSpeed, ySpeed, vel
-    changeAngle -= 15
+    changeAngle -= 1
     angle += changeAngle
     changeAngle = 0
     if angle >= 360:
@@ -63,7 +64,7 @@ def turnLeft():
 def turnRight():
     """Rotates the rocket clockwise"""
     global angle, changeAngle, rAngle, xSpeed, ySpeed, vel
-    changeAngle += 15
+    changeAngle += 1
     angle += changeAngle
     changeAngle = 0
     if angle >= 360:

@@ -86,7 +86,7 @@ class Game:
             # Draw / render
             self.all_sprites.draw(self.screen)
             # always do this last. after drawing everything, flip the display
-            pg.display.flip() # pygame shows what it was drawing in the background.(update display)
+            #pg.display.flip() # pygame shows what it was drawing in the background.(update display)
 
     def show_start_screen(self):
         pass
